@@ -9,8 +9,6 @@
 
 ### Docker-compose 快速部署示例
 ```
-version: '3.8'
-
 services:
   acgfaka:
     image: ghcr.io/sky22333/acg-faka:latest
