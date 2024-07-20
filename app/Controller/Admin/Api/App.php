@@ -48,15 +48,6 @@ class App extends Manage
     }
 
     /**
-     * @return array
-     */
-    public function ad(): array
-    {
-        return $this->json(200, "ok", $this->app->ad());
-    }
-
-
-    /**
      * @throws JSONException
      */
     public function init(): array
