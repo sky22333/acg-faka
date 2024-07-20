@@ -1,4 +1,13 @@
-### docker compose 快速部署
+### Docker优化版acgfaka
+
+- 镜像增加redis扩展
+- 镜像增加opcache扩展
+- 去除后台广告
+- 优化打开速度
+
+
+
+### Docker-compose 快速部署示例
 ```
 version: '3.8'
 
