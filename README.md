@@ -34,7 +34,9 @@ services:
     image: redis:latest
     restart: always
 ```
-
+```
+docker compose up -d
+```
 
 ### 访问站点
 `http://你的IP:9000`进入网站，后台路径为`/admin`
