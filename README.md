@@ -34,3 +34,14 @@ services:
     image: redis:latest
     restart: always
 ```
+
+
+### 访问站点
+`http://你的IP:9000`进入网站，后台路径为`/admin`
+
+```
+数据库地址：mysql
+数据库名称：acgfakadb
+数据库账号：acgfakauser
+数据库密码：acgfakapassword
+```
