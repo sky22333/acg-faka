@@ -35,7 +35,7 @@ ENV MYSQL_HOST=localhost \
     REDIS_PORT=6379 \
     OPCACHE_FILE_CACHE_DIR=/var/www/html/opcache_cache_dir \
     PHP_INI_FILE=/usr/local/etc/php/php.ini \
-    TIMEZONE="Asia/Shanghai" \
+    TIMEZONE="Asia/Shanghai"
 
 # 配置 OPcache
 RUN mkdir -p "$OPCACHE_FILE_CACHE_DIR" && \
@@ -61,7 +61,7 @@ RUN mkdir -p "$OPCACHE_FILE_CACHE_DIR" && \
 
 # 设置权限并暴露端口
 RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 /var/www/html
+    && chmod -R 755 /var/www/html
 
 EXPOSE 80
 
