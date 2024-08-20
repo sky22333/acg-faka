@@ -1,13 +1,10 @@
 FROM webdevops/php-nginx:8.1-alpine
 
-# 设置工作目录并复制代码
 WORKDIR /app
 COPY . .
 
-# 安装 Composer 依赖
 RUN composer install --no-dev --optimize-autoloader
 
-# 设置环境变量
 ENV MYSQL_HOST=localhost \
     MYSQL_USER=root \
     MYSQL_PASSWORD=password \
@@ -40,7 +37,7 @@ RUN mkdir -p "$OPCACHE_FILE_CACHE_DIR" && \
         echo "date.timezone = $TIMEZONE" >> "$PHP_INI_FILE"; \
     fi
 
-# 创建自定义 Nginx 配置文件
+# 定义 Nginx 配置文件
 RUN echo ' \
 server { \
     listen 80; \
@@ -76,6 +73,5 @@ server { \
     } \
 }' > /opt/docker/etc/nginx/vhost.conf
 
-# 设置权限
 RUN chown -R application:application /app \
     && chmod -R 755 /app
