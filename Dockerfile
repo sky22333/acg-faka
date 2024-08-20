@@ -1,29 +1,8 @@
-FROM php:8.0-apache
+FROM webdevops/php-nginx:8.1-alpine
 
-# 安装必要的依赖和扩展
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        libpng-dev \
-        libjpeg-dev \
-        libfreetype6-dev \
-        zlib1g-dev \
-        libzip-dev \
-        default-mysql-client \
-        redis-tools \
-    && pecl install redis \
-    && docker-php-ext-enable redis \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) gd zip pdo_mysql opcache \
-    && a2enmod rewrite deflate \
-    && sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-# 设置工作目录并复制代码
-WORKDIR /var/www/html
+WORKDIR /app
 COPY . .
 
-# 复制并安装 Composer
-COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 RUN composer install --no-dev --optimize-autoloader
 
 # 设置环境变量
@@ -33,13 +12,13 @@ ENV MYSQL_HOST=localhost \
     MYSQL_DATABASE=your_database_name \
     REDIS_HOST=redis \
     REDIS_PORT=6379 \
-    OPCACHE_FILE_CACHE_DIR=/var/www/html/opcache_cache_dir \
-    PHP_INI_FILE=/usr/local/etc/php/php.ini \
+    OPCACHE_FILE_CACHE_DIR=/app/opcache_cache_dir \
+    PHP_INI_FILE=/opt/docker/etc/php/php.ini \
     TIMEZONE="Asia/Shanghai"
 
 # 配置 OPcache
 RUN mkdir -p "$OPCACHE_FILE_CACHE_DIR" && \
-    chown -R www-data:www-data "$OPCACHE_FILE_CACHE_DIR" && \
+    chown -R application:application "$OPCACHE_FILE_CACHE_DIR" && \
     { \
     echo "[opcache]"; \
     echo "opcache.enable=1"; \
@@ -59,10 +38,41 @@ RUN mkdir -p "$OPCACHE_FILE_CACHE_DIR" && \
         echo "date.timezone = $TIMEZONE" >> "$PHP_INI_FILE"; \
     fi
 
-# 设置权限并暴露端口
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html
+# 定义 Nginx 配置文件
+RUN echo ' \
+server { \
+    listen 80; \
+    server_name _; \
+    root /app; \
+    index index.php; \
+    location / { \
+        if (!-e $request_filename) { \
+            rewrite ^(.*)$ /index.php?s=$1 last; \
+            break; \
+        } \
+    } \
+    location ~ \.php$ { \
+        fastcgi_pass 127.0.0.1:9000; \
+        fastcgi_index index.php; \
+        include fastcgi_params; \
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; \
+    } \
+    # 启用 gzip 压缩 \
+    gzip on; \
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript image/svg+xml; \
+    gzip_vary on; \
+    gzip_min_length 1000; \
+    gzip_proxied any; \
+    gzip_comp_level 6; \
+    gzip_buffers 16 8k; \
+    gzip_http_version 1.1; \
+    \
+    # 优化静态文件缓存 \
+    location ~* \.(css|js|jpg|jpeg|png|gif|ico|svg)$ { \
+        expires max; \
+        add_header Cache-Control "public"; \
+    } \
+}' > /opt/docker/etc/nginx/vhost.conf
 
-EXPOSE 80
-
-CMD ["apache2-foreground"]
+RUN chown -R application:application /app \
+    && chmod -R 755 /app
