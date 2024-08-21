@@ -67,7 +67,7 @@ server { \
     gzip_http_version 1.1; \
     \
     # 优化静态文件缓存 \
-    location ~* \.(css|js|jpg|jpeg|png|gif|ico|svg)$ { \
+    location ~* \.(css|js|svg)$ { \
         expires max; \
         add_header Cache-Control "public"; \
     } \
