@@ -16,7 +16,7 @@ services:
       MYSQL_USER: acgfakauser              # 数据库用户名称
       MYSQL_PASSWORD: acgfakapassword      # 数据库用户密码
     volumes:
-      - /home/mysql:/var/lib/mysql
+      - ./data/acgfaka:/var/lib/mysql
     restart: always
 
   redis:
