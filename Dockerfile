@@ -56,7 +56,6 @@ server { \
         include fastcgi_params; \
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; \
     } \
-    # 启用 gzip 压缩 \
     gzip on; \
     gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript image/svg+xml; \
     gzip_vary on; \
@@ -65,8 +64,9 @@ server { \
     gzip_comp_level 6; \
     gzip_buffers 16 8k; \
     gzip_http_version 1.1; \
-    } \
-}' > /opt/docker/etc/nginx/vhost.conf
+} \
+' > /opt/docker/etc/nginx/vhost.conf
+
 
 RUN chown -R application:application /app \
     && chmod -R 755 /app
