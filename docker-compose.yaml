@@ -1,6 +1,6 @@
 services:
   acgfaka:
-    buiid: .
+    build: .
     ports:
       - "9000:80"
     depends_on:
