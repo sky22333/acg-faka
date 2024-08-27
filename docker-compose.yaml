@@ -1,6 +1,6 @@
 services:
   acgfaka:
-    image: ghcr.io/sky22333/acg-faka:latest
+    buiid: .
     ports:
       - "9000:80"
     depends_on:
