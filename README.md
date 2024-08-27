@@ -13,7 +13,7 @@ services:
   acgfaka:
     image: ghcr.io/sky22333/acg-faka:latest
     ports:
-      - "9000:80"
+      - "8080:80"
     depends_on:
       - mysql
       - redis
@@ -39,7 +39,7 @@ docker compose up -d
 ```
 
 ### 访问站点
-`http://你的IP:9000`进入网站，后台路径为`/admin`
+`http://你的IP:8080`进入网站，后台路径为`/admin`
 
 ```
 数据库地址：mysql
