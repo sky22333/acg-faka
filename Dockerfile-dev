@@ -5,13 +5,7 @@ WORKDIR /acg-faka
 
 RUN composer install --no-dev --optimize-autoloader
 
-ENV MYSQL_HOST=localhost \
-    MYSQL_USER=root \
-    MYSQL_PASSWORD=password \
-    MYSQL_DATABASE=your_database_name \
-    REDIS_HOST=redis \
-    REDIS_PORT=6379 \
-    OPCACHE_FILE_CACHE_DIR=/app/opcache_cache_dir \
+ENV OPCACHE_FILE_CACHE_DIR=/app/opcache_cache_dir \
     PHP_INI_FILE=/opt/docker/etc/php/php.ini \
     TIMEZONE="Asia/Shanghai"
 
