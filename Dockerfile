@@ -6,7 +6,7 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader
 
 ENV MYSQL_HOST=localhost \
-    MYSQL_USER=root \
+    MYSQL_USER=user \
     MYSQL_PASSWORD=password \
     MYSQL_DATABASE=your_database_name \
     REDIS_HOST=redis \
