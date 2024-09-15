@@ -31,7 +31,7 @@ services:
     restart: always
 
   redis:
-    image: redis:latest
+    image: redis:alpine
     restart: always
 ```
 ```
