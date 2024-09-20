@@ -14,8 +14,6 @@ services:
     image: ghcr.io/sky22333/acg-faka:latest
     ports:
       - "8080:80"
-    volumes:
-      - ./data/acgfaka:/app
     depends_on:
       - mysql
       - redis
