@@ -14,6 +14,8 @@ services:
     image: ghcr.io/sky22333/acg-faka:latest
     ports:
       - "8080:80"
+    volumes:
+      - ./data/acgfaka:/app
     depends_on:
       - mysql
       - redis
@@ -27,7 +29,7 @@ services:
       MYSQL_USER: acgfakauser              # 数据库用户名称
       MYSQL_PASSWORD: acgfakapassword      # 数据库用户密码
     volumes:
-      - ./data/acgfaka:/var/lib/mysql
+      - ./data/mysql:/var/lib/mysql
     restart: always
 
   redis:
