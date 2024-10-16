@@ -1,24 +1,19 @@
 services:
-  acgfaka:
+  mcyshop:
     build: .
     ports:
       - "8080:80"
     depends_on:
       - mysql
-      - redis
     restart: always
 
   mysql:
     image: mysql:5.7
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword    # 数据库的root用户密码
-      MYSQL_DATABASE: acgfakadb            # 数据库名称
-      MYSQL_USER: acgfakauser              # 数据库用户名称
-      MYSQL_PASSWORD: acgfakapassword      # 数据库用户密码
+      MYSQL_ROOT_PASSWORD: mcyshop7890    # 数据库的root用户密码
+      MYSQL_DATABASE: mcyshop            # 数据库名称
+      MYSQL_USER: mcyshop              # 数据库用户名称
+      MYSQL_PASSWORD: mcyshop7890      # 数据库用户密码
     volumes:
-      - ./data/acgfaka:/var/lib/mysql
-    restart: always
-
-  redis:
-    image: redis:alpine
+      - ./data:/var/lib/mysql
     restart: always
