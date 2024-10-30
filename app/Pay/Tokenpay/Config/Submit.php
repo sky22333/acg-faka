@@ -6,12 +6,12 @@ return [
         "title" => "URL",
         "name" => "url",
         "type" => "input",
-        "placeholder" => "网关"
+        "placeholder" => "支付网关"
     ],
     [
         "title" => "KEY",
         "name" => "key",
         "type" => "input",
-        "placeholder" => "密钥"
+        "placeholder" => "对接密钥"
     ],
 ];
